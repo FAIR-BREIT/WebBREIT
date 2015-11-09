@@ -1,0 +1,45 @@
+extends layout
+
+block content
+  nav(class='navbar navbar-default')
+    .container-fluid
+      .navbar-header
+        a(class='navbar-brand' href='#')= title
+      ul(class='nav navbar-nav navbar-right')
+        li
+          a(href='https://github.com/FAIR-BREIT' target='_blank') GitHub
+  .container
+    .row
+      .col-xs-12
+        .lead.centered
+          h3 Solve analytically the equilibrium and non-equilibrium charge state distributions equations.
+        form(id='uploadForm' enctype='multipart/form-data' action='/txts' method='post')
+          .form-group
+            div(class='input-group')
+              span(class='input-group-btn')
+                span(class='btn btn-default btn-file') Select input file ...
+                  input(type='file' id='userTxtInput' name='txt' accept='text/plain')
+              input(type='text' class='form-control' readonly)
+              span(class='input-group-btn')
+                input(type='submit' value='Solve' class='btn btn-default')
+            .checkbox
+              label(class='checkbox-inline')
+                input(type='checkbox' name='analytic' checked)
+                = " analytic solution"
+              label(class='checkbox-inline')
+                input(type='checkbox' name='approximation' checked)
+                = " approximated solution"
+              label(class='checkbox-inline')
+                input(type='checkbox' name='tabular' checked)
+                = " tabular output"
+              label(class='checkbox-inline pull-right')
+                input(type='checkbox' name='pdf')
+                = " produce PDF output"
+        div(id='status' class='alert alert-info')
+    .row
+      .col-lg-6.col-md-6.col-sm-12
+        h4(class='centered' id='ne-title')
+        div(id='canvas-ne' style='margin: 0 auto;')
+      .col-lg-6.col-md-6.col-sm-12
+        h4(class='centered' id='e-title')
+        div(id='canvas-e' style='margin: 0 auto;')
