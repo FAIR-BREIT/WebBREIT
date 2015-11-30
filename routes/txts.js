@@ -22,6 +22,9 @@ router.post('/', upload.single('txt'), function(req, res, next) {
   if (req.body.tabular) {
     cmdOptions += " --save-table ";
   }
+  if (req.body.distance) {
+    cmdOptions += " --save-distance-to-eq ";
+  }
   if (req.body.pdf) {
     cmdOptions += " --save-fig-ne --save-fig-e ";
   }
