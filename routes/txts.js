@@ -52,6 +52,8 @@ router.post('/', upload.single('txt'), function(req, res, next) {
       serverRootFileNameNE = serverRootFileNameNE.replace('.txt', '.root');
       serverRootFileNameE = serverRootFileNameE.replace('.txt', '.root');
 
+      console.log("executing: " + cmd);
+
       exec(cmd, function(error, stdout, stderr) {
         if (error) {
           res.send({
