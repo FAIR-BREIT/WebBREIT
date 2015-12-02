@@ -10,6 +10,10 @@ router.post('/', upload.single('txt'), function(req, res, next) {
   var outputDirName = __dirname + '/../results/';
 
   var breitDir = process.env.BREIT_BINARY_DIR;
+  var logAppName = "WebBREIT: ";
+
+  console.log(logAppName + "received a request from: " + req.connection.remoteAddress);
+  console.log(logAppName + "(forwarded for: " + req.headers['x-forwarded-for'] + ")");
 
   var cmdOptions = "";
 
@@ -40,7 +44,7 @@ router.post('/', upload.single('txt'), function(req, res, next) {
         return;
       }
 
-      var cmd = breitDir + '/breit-web.sh --input-file ' + newInputFileName + ' --verbose=NOLOG --output-directory ' + outputDirName + cmdOptions + ';'
+      var cmd = breitDir + '/breit-web.sh --input-file ' + newInputFileName + ' --verbose=NOLOG --output-directory ' + outputDirName + cmdOptions;
 
       var serverTxtFileName = 'Breit-results-' + req.file.filename + '_' + req.file.originalname;
       var serverPdfNEFileName = 'Breit-results-figure-ne-' + req.file.filename + '_' + req.file.originalname;
@@ -52,7 +56,7 @@ router.post('/', upload.single('txt'), function(req, res, next) {
       serverRootFileNameNE = serverRootFileNameNE.replace('.txt', '.root');
       serverRootFileNameE = serverRootFileNameE.replace('.txt', '.root');
 
-      console.log("executing: " + cmd);
+      console.log(logAppName + "executing: " + cmd);
 
       exec(cmd, function(error, stdout, stderr) {
         if (error) {
