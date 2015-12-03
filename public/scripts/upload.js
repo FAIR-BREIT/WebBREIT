@@ -23,7 +23,11 @@ $(document).ready(function() {
 
             success: function(response) {
                 if (response.error){
-                    status('Error: ' + response.error, 'alert-danger');
+                    if (response.errorFile){
+                        status('Error: ' + response.error + '<br>Details: ' + response.errorFile, 'alert-danger');
+                    } else {
+                        status('Error: ' + response.error, 'alert-danger');
+                    }
                     return;
                 }
 

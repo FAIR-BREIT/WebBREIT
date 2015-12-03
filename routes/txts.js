@@ -59,12 +59,28 @@ router.post('/', upload.single('txt'), function(req, res, next) {
       console.log(logAppName + "executing: " + cmd);
 
       exec(cmd, function(error, stdout, stderr) {
+        // if command execution fails
         if (error) {
-          res.send({
-            // error: "Execution failed: " + error.message
-            error: "Execution failed."
-          })
+          // read the output error file from the process
+          fs.readFile(outputDirName + 'breit_log_error.txt', 'utf8', function(err, data) {
+            if (err) {
+              // if reading of the output file fails, just send dumb error message and return.
+              res.send({
+                error: "Execution failed.",
+                errorFile: ""
+              });
+              return console.log(err);
+            }
+            // send the error message and the contents of the output error file.
+            res.send({
+              error: "Execution failed.",
+              errorFile: data
+            });
+          });
+          // print error message to the server console
           console.log('exec error: ' + error);
+          // delete the input file
+          fs.unlink(newInputFileName);
           return;
         }
 
