@@ -9,6 +9,9 @@ $(document).ready(function() {
     $('#uploadForm').submit(function(e) {
         e.preventDefault();
 
+        $('#canvas-ne').empty();
+        $('#canvas-e').empty();
+
         status('Processing...', 'alert-info');
 
         if ($('#userTxtInput').val() === "") {
@@ -44,8 +47,6 @@ $(document).ready(function() {
                 }
 
                 status(resultString,'alert-success');
-                $('#canvas-ne').empty();
-                $('#canvas-e').empty();
                 $('#ne-title').text("non-equilibrium");
                 $('#e-title').text("equilibrium");
                 runRoot("/results/" + response.resultNE, "c1Dia;1", "canvas-ne");
@@ -80,4 +81,3 @@ $(document).on('change', '.btn-file :file', function() {
         label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
     input.trigger('fileselect', [numFiles, label]);
 });
-
