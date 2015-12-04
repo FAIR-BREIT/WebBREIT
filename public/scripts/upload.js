@@ -27,7 +27,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.error) {
                     if (response.errorFile) {
-                        status('<strong>Error: </strong>' + response.error + '<br>Details: ' + response.errorFile, 'alert-danger');
+                        status('<strong>Error: </strong>' + response.error + '<br><strong>Details: </strong>' + response.errorFile, 'alert-danger');
                     } else {
                         status('<strong>Error: </strong>' + response.error, 'alert-danger');
                     }
