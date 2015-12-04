@@ -21,15 +21,15 @@ $(document).ready(function() {
 
         $(this).ajaxSubmit({
             error: function(xhr) {
-                status('Error: ' + xhr.status, 'alert-danger');
+                status('<strong>Error: </strong>' + xhr.status, 'alert-danger');
             },
 
             success: function(response) {
-                if (response.error){
-                    if (response.errorFile){
-                        status('Error: ' + response.error + '<br>Details: ' + response.errorFile, 'alert-danger');
+                if (response.error) {
+                    if (response.errorFile) {
+                        status('<strong>Error: </strong>' + response.error + '<br>Details: ' + response.errorFile, 'alert-danger');
                     } else {
-                        status('Error: ' + response.error, 'alert-danger');
+                        status('<strong>Error: </strong>' + response.error, 'alert-danger');
                     }
                     return;
                 }
