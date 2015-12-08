@@ -4,7 +4,7 @@ $(document).ready(function() {
         $('#status').attr("class", "alert " + className);
     }
 
-    status('Waiting for input.', 'alert-info');
+    status("Waiting for input.<br><small>(Don't have an input file? Try example files from the <a href='https://github.com/FAIR-BREIT/BREIT-CORE/tree/master/data/input' target='_blank'>BREIT repository</a>)</small>", 'alert-info');
 
     $('#uploadForm').submit(function(e) {
         e.preventDefault();
