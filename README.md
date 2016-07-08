@@ -2,6 +2,8 @@
 
 Web GUI for the [BREIT (Balance Rate Equations for Ion Transportation)](https://github.com/FAIR-BREIT/BREIT-CORE) project.
 
+Demo: [breit.gsi.de](http://breit.gsi.de/).
+
 Requirements: [node.js](https://nodejs.org/).
 
 Steps to run:
