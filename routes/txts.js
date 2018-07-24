@@ -80,7 +80,12 @@ router.post('/', upload.single('txt'), function(req, res, next) {
           // print error message to the server console
           console.log('exec error: ' + error);
           // delete the input file
-          fs.unlink(newInputFileName);
+          fs.unlink(newInputFileName, function(err) {
+            if (err) {
+              throw err;
+            }
+            console.log(newInputFileName + ' was deleted');
+          });
           return;
         }
 
