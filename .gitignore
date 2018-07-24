@@ -32,3 +32,5 @@ txts/*
 
 results/*
 !results/README.md
+
+credentials.js

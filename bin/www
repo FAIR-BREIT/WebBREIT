@@ -1,42 +1,42 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
 var app = require('../app');
 var debug = require('debug')('webbear:server');
-var http = require('http');
+var https = require('https');
+var fs = require('fs');
+var express = require('express');
+var credentials = require('../credentials.js'); // key & cert location
 
-/**
- * Get port from environment and store in Express.
- */
+// Get port from environment and store in Express
+var httpPort = normalizePort(process.env.HTTPPORT || '80');
+var httpsPort = normalizePort(process.env.HTTPSPORT || '443');
 
-var port = normalizePort(process.env.PORT || '80');
-app.set('port', port);
+// Create HTTP server
+var httpsServer = https.createServer({
+  key: fs.readFileSync(credentials.key),
+  cert: fs.readFileSync(credentials.cert)
+}, app);
 
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-
-
-server.listen(port, function () {
-  console.log("Server listening on: http://localhost:%s", port);
+// Listen on provided port, on all network interfaces
+httpsServer.listen(httpsPort, function () {
+  console.log("Server listening on: http://localhost:%s", httpsPort);
 });
-server.on('error', onError);
-server.on('listening', onListening);
+httpsServer.on('error', onHTTPSError);
+httpsServer.on('listening', onListening);
 
-/**
- * Normalize a port into a number, string, or false.
- */
+// redirect HTTP to HTTPS
+var httpServer = express();
+httpServer.get('*', function(req, res) {
+  var url = req.headers.host;
+  if (url.lastIndexOf(':') !== -1) {
+    url = url.substring(0, url.lastIndexOf(':'));
+  }
+  res.redirect('https://' + url + ':' + httpsPort + req.url);
+});
 
+httpServer.listen(httpPort);
+
+// Normalize a port into a number, string, or false
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
@@ -53,18 +53,15 @@ function normalizePort(val) {
   return false;
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
-
-function onError(error) {
+// Event listener for HTTPS server "error" event
+function onHTTPSError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  var bind = typeof httpsPort === 'string'
+    ? 'Pipe ' + httpsPort
+    : 'Port ' + httpsPort;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -81,12 +78,35 @@ function onError(error) {
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
+// Event listener for HTTP server "error" event
+function onHTTPError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
 
+  var bind = typeof httpPort === 'string'
+    ? 'Pipe ' + httpPort
+    : 'Port ' + httpPort;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+
+// Event listener for HTTP server "listening" event
 function onListening() {
-  var addr = server.address();
+  var addr = httpsServer.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
