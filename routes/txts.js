@@ -101,7 +101,12 @@ router.post('/', upload.single('txt'), function(req, res, next) {
 
         res.send(response);
 
-        fs.unlink(newInputFileName);
+        fs.unlink(newInputFileName, function(err) {
+          if (err) {
+            throw err;
+          }
+          console.log(newInputFileName + ' was deleted');
+        });
       });
     }
   );
