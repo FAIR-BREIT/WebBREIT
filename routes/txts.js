@@ -12,8 +12,8 @@ router.post('/', upload.single('txt'), function(req, res, next) {
   var breitDir = process.env.BREIT_BINARY_DIR;
   var logAppName = "WebBREIT: ";
 
-  console.log(logAppName + "received a request from: " + req.connection.remoteAddress);
-  console.log(logAppName + "(forwarded for: " + req.headers['x-forwarded-for'] + ")");
+  // console.log(logAppName + "received a request from: " + req.connection.remoteAddress);
+  // console.log(logAppName + "(forwarded for: " + req.headers['x-forwarded-for'] + ")");
 
   var cmdOptions = "";
 
