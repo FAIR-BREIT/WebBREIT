@@ -69,7 +69,7 @@ router.post('/', upload.single('txt'), function(req, res, next) {
                 error: "Execution failed.",
                 errorFile: ""
               });
-              return console.log(err);
+              return console.log(logAppName + err);
             }
             // send the error message and the contents of the output error file.
             res.send({
@@ -78,13 +78,13 @@ router.post('/', upload.single('txt'), function(req, res, next) {
             });
           });
           // print error message to the server console
-          console.log('exec error: ' + error);
+          console.log(logAppName + 'exec error: ' + error);
           // delete the input file
           fs.unlink(newInputFileName, function(err) {
             if (err) {
               throw err;
             }
-            console.log(newInputFileName + ' was deleted');
+            console.log(logAppName + newInputFileName + ' was deleted');
           });
           return;
         }
@@ -105,7 +105,7 @@ router.post('/', upload.single('txt'), function(req, res, next) {
           if (err) {
             throw err;
           }
-          console.log(newInputFileName + ' was deleted');
+          console.log(logAppName + newInputFileName + ' was deleted');
         });
       });
     }
