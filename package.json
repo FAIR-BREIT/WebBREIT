@@ -6,11 +6,11 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "body-parser": "~1.19.0",
-    "express": "~4.17.1",
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
     "morgan": "~1.10.0",
-    "multer": "^1.4.3",
-    "pug": "^3.0.2"
+    "multer": "^1.4.5-lts.1",
+    "pug": "^3.0.3"
   },
   "licence": "LGPL"
 }
