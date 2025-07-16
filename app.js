@@ -1,4 +1,5 @@
 var express = require('express');
+const helmet = require('helmet');
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
@@ -8,6 +9,7 @@ var txts = require('./routes/txts');
 var results = require('./routes/results');
 
 var app = express();
+app.use(helmet());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
